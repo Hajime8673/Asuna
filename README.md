@@ -33,4 +33,4 @@ result = Chunker.multi_chunk(list1, list2, list3, chunk_size=3, default_value=0)
 print(result) # Output: [[1, 6, 9], [2, 7, 10], [3, 8, 11], [4, 0, 12], [5, 0, 0]]
 ```
 
-#### Note: Not meant for any production environment, please refrain from using in production.
+#### Note: Useful for development stage and may not be efficient for production environment.

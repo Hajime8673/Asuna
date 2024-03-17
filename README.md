@@ -33,4 +33,56 @@ result = Chunker.multi_chunk(list1, list2, list3, chunk_size=3, default_value=0)
 print(result) # Output: [[1, 6, 9], [2, 7, 10], [3, 8, 11], [4, 0, 12], [5, 0, 0]]
 ```
 
+```py
+from Asuna import RetryHandler
+
+def test(a, b):
+    return a + b
+
+# Example for RetryHandler
+if __name__ == "__main__":
+    # RetryHandler will retry on error, when result type is not int or float and when result is 3
+    retry_handler = RetryHandler(
+        on_error=True, 
+        on_type_unmatch=[int, float], 
+        on_match=[3],
+        retry_delay=3, 
+        retries=2,
+        delay_multiply=2)
+    # retry_handler.retry decorator returns a function that takes the arguments of test function
+    # The returned function will call test function and retry if necessary
+    retry_function = retry_handler.retry(test)
+    result = retry_function(1, 2)
+    print(f"Result from RetryHandler: {result}")
+```
+
+```py
+from Asuna import AsyncRetryHandler
+import asyncio
+# Example for AsyncRetryHandler
+
+async def test(a, b):
+    return a + b
+
+def handler(result):
+    """
+    Example handler function that checks if result is equal to 3.
+    """
+    return result == 3
+
+async def main():
+    # AsyncRetryHandler will retry on error, when handler function returns True and when result is not 3
+    retry_handler = AsyncRetryHandler(
+        on_error=True,
+        handler=handler,
+        retry_delay=3,
+        retries=3,
+        delay_multiply=2)
+    retry_function = retry_handler.retry(test)
+    result = await retry_function(1, 2)
+    print(f"Result from AsyncRetryHandler: {result}")
+
+asyncio.run(main())
+```
+
 #### Note: Useful for development stage and may not be efficient for production environment.

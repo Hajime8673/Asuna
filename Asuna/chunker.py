@@ -1,5 +1,5 @@
 class Chunker:
-    def chunk(input_list, chunk_size):
+    def chunk(input_list, chunk_size: int):
         """
         Chunk a list into smaller sublists of the specified length.
 
@@ -10,14 +10,9 @@ class Chunker:
         if chunk_size <= 0:
             raise ValueError("Chunk size must be a positive integer.")
 
-        chunks = []
-        for i in range(0, len(input_list), chunk_size):
-            chunk = input_list[i:i + chunk_size]
-            chunks.append(chunk)
+        return [input_list[x:x+chunk_size] for x in range(0, len(input_list), chunk_size)]
 
-        return chunks
-
-    def multi_chunk(*lists, chunk_size, default_value=None):
+    def multi_chunk(*lists, chunk_size: int, default_value=None):
         """
         Chunk multiple lists by extracting one item from each list and forming sets.
         If a list runs out of items, use the default_value to fill in.
